@@ -3,6 +3,9 @@
 #' This function copies the information from tif image files, renames the images with a scramble key, then saves two csv files, one with the scramble key and one with just the scramble numbeers.
 #' @param path What is the path to the folder containing the images?
 #' @param chunks How many blocks of information should the image names be broken into as separated by "_"? Defaults to 1.
+#' @param sep What string so you want to divide the file name with into various chunks
+#' @param filetype What filetype are you scrambling
+#' @export
 #' @keywords image scrambler
 #' image_scrambler()
 
