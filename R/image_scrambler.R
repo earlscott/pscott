@@ -12,8 +12,6 @@
 
 
 
-
-
 image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif"){
   file_paths <- list.files(path = path)
   file_number <- length(file_paths)
@@ -41,10 +39,9 @@ image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif"){
 
 
 
-  file.rename(from = file.path(path, file_df[,"file_paths"]) , to = file.path(path,     file_df[,"scramble_num"])) ###Rename the files in the folder
+  file.rename(from = file.path(path, file_df[,"file_paths"]) , to = file.path(path, file_df[,"scramble_num"])) ###Rename the files in the folder
 
-  file_df <- as.data.frame(file_df)
-  file_df$scramble_num <- as.numeric(file_df$scramble_num)
+  file_df$scramble_num <- as.numeric(as.character(file_df$scramble_num))
   file_df <- file_df[order(file_df$scramble_num), ]
   key_file <- subset(file_df, select = -c(file_paths))
   scrambled_file <- subset(file_df, select = c(scramble_num))
