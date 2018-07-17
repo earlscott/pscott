@@ -49,9 +49,8 @@ file.copy(from = file.path(path, file_df[,"file_paths"]) , to = path2, copy.mode
   key_file <- subset(file_df, select = -c(file_paths))
   scrambled_file <- subset(file_df, select = c(scramble_num))
 
-  setwd(path2)
-  write.csv(key_file, file = "key_file.csv", row.names = FALSE)
-  write.csv(scrambled_file, file = "scrambled_file.csv", row.names = FALSE)
+  write.csv(key_file, file = file.path(path2, "key_file.csv"), row.names = FALSE)
+  write.csv(scrambled_file, file.path(path2, "scrambled_file.csv"), row.names = FALSE)
 }
 
 
