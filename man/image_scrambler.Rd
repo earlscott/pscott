@@ -2,7 +2,7 @@
 % Please edit documentation in R/image_scrambler.R
 \name{image_scrambler}
 \alias{image_scrambler}
-\title{An Image Scrambling Function}
+\title{An Image Scrambling Function.}
 \usage{
 image_scrambler(path, chunks = 1, sep = "_", filetype = "tif")
 }
