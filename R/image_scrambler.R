@@ -40,9 +40,9 @@ image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif"){
 path2 <- sub("(\\s?to\\s?be\\s?scrambled)", "", path, ignore.case = TRUE)
 path2 <- paste0(path2, " SCRAMBLED")
 dir.create(path = path2)
-file.copy(from = file.path(path, file_df[,"file_paths"]) , to = file.path(path2, file_df[,"file_paths"]))
+file.copy(from = file.path(path, file_df[,"file_paths"]) , to = path2, copy.mode = TRUE)
 
-  file.rename(from = file.path(path2, file_df[,"file_paths"]) , to = file.path(path2, file_df[,"scramble_num"])) ###Rename the files in the folder
+  file.rename(from = file.path(path2, file_df[,"file_paths"]) , to = paste0(file.path(path2, file_df[,"scramble_num"]), ".tif")) ###Rename the files in the folder
 
   file_df$scramble_num <- as.numeric(as.character(file_df$scramble_num))
   file_df <- file_df[order(file_df$scramble_num), ]
@@ -53,6 +53,4 @@ file.copy(from = file.path(path, file_df[,"file_paths"]) , to = file.path(path2,
   write.csv(key_file, file = "key_file.csv", row.names = FALSE)
   write.csv(scrambled_file, file = "scrambled_file.csv", row.names = FALSE)
 }
-
-
 
