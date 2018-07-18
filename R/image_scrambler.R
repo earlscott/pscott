@@ -32,6 +32,7 @@ image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif", bin =
       empty_matrix[,i] <- c(sapply(info_split, "[",i))
     }
     file_df <- cbind(file_info, empty_matrix, scramble_num, file_paths) ### Combine everything into a matrix
+    file_df <- as.data.frame(file_df)
   } else if(chunks == 1){
     file_df <- as.data.frame(cbind(file_info, scramble_num, file_paths))
   } else {
