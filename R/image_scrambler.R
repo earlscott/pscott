@@ -5,6 +5,7 @@
 #' @param chunks How many blocks of information should the image names be broken into as separated by "_"? Defaults to 1.
 #' @param sep What string so you want to divide the file name with into various chunks
 #' @param filetype What filetype are you scrambling
+#' @param bin How many bins does your image have
 #' @export
 #' @keywords image scrambler
 #' image_scrambler()
@@ -12,7 +13,7 @@
 
 
 
-image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif"){
+image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif", bin = 1){
   file_paths <- list.files(path = path)
   file_number <- length(file_paths)
   file_info <- regmatches(file_paths, regexpr(pattern = paste0("([A-z0-9_\\. ]+)(?=\\.", filetype, "$)"), file_paths, perl = TRUE)) #this is for grabbing all the info from the file name which will have some sort of identifying information of the image in regards to other images in the folder. It removes the path and the extension from the file name.
@@ -37,10 +38,10 @@ image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif"){
     print("Error: Chunks parameter can not be negative")
   } #This block is for building columns by breaking up the info it pulled from the file number to a number of "chunks" as specified by the chunk arguement
 
-path2 <- sub("(\\s?to\\s?be\\s?scrambled)", "", path, ignore.case = TRUE)
-path2 <- paste0(path2, " SCRAMBLED")
-dir.create(path = path2)
-file.copy(from = file.path(path, file_df[,"file_paths"]) , to = path2, copy.mode = TRUE)
+  path2 <- sub("(\\s?to\\s?be\\s?scrambled)", "", path, ignore.case = TRUE)
+  path2 <- paste0(path2, " SCRAMBLED")
+  dir.create(path = path2)
+  file.copy(from = file.path(path, file_df[,"file_paths"]) , to = path2, copy.mode = TRUE)
 
   file.rename(from = file.path(path2, file_df[,"file_paths"]) , to = paste0(file.path(path2, file_df[,"scramble_num"]), ".tif")) ###Rename the files in the folder
 
@@ -48,6 +49,14 @@ file.copy(from = file.path(path, file_df[,"file_paths"]) , to = path2, copy.mode
   file_df <- file_df[order(file_df$scramble_num), ]
   key_file <- subset(file_df, select = -c(file_paths))
   scrambled_file <- subset(file_df, select = c(scramble_num))
+
+  if(bin > 1){
+      scrambled_file <- setDT(scrambled_file)
+      scrambled_file <- scrambled_file[rep(seq(.N), each = bin), ]
+      rownum <- nrow(scrambled_file)
+      scrambled_file$Bin <- rep(1:bin, rownum/bin)
+      scrambled_file <- as.data.frame(scrambled_file)
+  }
 
   write.csv(key_file, file = file.path(path2, "key_file.csv"), row.names = FALSE)
   write.csv(scrambled_file, file.path(path2, "scrambled_file.csv"), row.names = FALSE)
