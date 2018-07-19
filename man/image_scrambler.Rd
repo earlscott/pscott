@@ -4,7 +4,7 @@
 \alias{image_scrambler}
 \title{An Image Scrambling Function.}
 \usage{
-image_scrambler(path, chunks = 1, sep = "_", filetype = "tif")
+image_scrambler(path, chunks = 1, sep = "_", filetype = "tif", bin = 1)
 }
 \arguments{
 \item{path}{What is the path to the folder containing the images?}
@@ -14,6 +14,8 @@ image_scrambler(path, chunks = 1, sep = "_", filetype = "tif")
 \item{sep}{What string so you want to divide the file name with into various chunks}
 
 \item{filetype}{What filetype are you scrambling}
+
+\item{bin}{How many bins does your image have}
 }
 \description{
 This function copies the information from tif image files, renames the images with a scramble key, then saves two csv files, one with the scramble key and one with just the scramble numbeers.
