@@ -6,14 +6,15 @@
 #' @keywords ImageJ FIJI parse ITCN Results
 #' parse()
 
-parse <- function(path, scramble = TRUE){
-  results <- readChar(path, nchars = file.info(path)$size)
+parse <- function(path){
+  results <- readChar(file.path(path, "Results.txt"), nchars = file.info(file.path(path, "Results.txt"))$size)
   img_names <- regmatches(results, gregexpr(pattern = "(?<=Image:\\s)(\\d+)(?=\\.tif)", results, perl = TRUE))
   cell_count <- regmatches(results, gregexpr(pattern = "(?<=\nNumber\\sof\\sCells:\\s)(\\d+)(?=\\sin\\s)", results, perl = TRUE))
   img_area <- regmatches(results, gregexpr(pattern = "(?<=\\sin\\s)((\\d+)(\\.*)(\\d*))(?=\\ssquare)", results, perl = TRUE))
   itcn <- as.data.frame(c(img_names, cell_count, img_area))
   colnames(itcn) <- c("Image_Name", "Cell_Count", "Image_Area")
   itcn$Order <- c(1:nrow(itcn))
-  write.csv(itcn, path = file.path(path, "ITCN_Results.csv"), row.names = FALSE)
+  write.csv(itcn, file = file.path(path, "ITCN_Results.csv"), row.names = FALSE)
 }
+
 
