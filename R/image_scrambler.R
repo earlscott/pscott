@@ -52,11 +52,14 @@ image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif", bin =
   scrambled_file <- subset(file_df, select = c(scramble_num))
 
   if(bin > 1){
-      scrambled_file <- setDT(scrambled_file)
-      scrambled_file <- scrambled_file[rep(seq(.N), each = bin), ]
+      scrambled_file <- as.matrix(scrambled_file)
       rownum <- nrow(scrambled_file)
-      scrambled_file$Bin <- rep(1:bin, rownum/bin)
+      rows <- rep(1:rownum, each = bin)
+      scrambled_file <- scrambled_file[rows, ]
       scrambled_file <- as.data.frame(scrambled_file)
+      colnames(scrambled_file) <- c("scramble_num")
+      scrambled_file$Bin <- rep(1:bin, rownum)
+
   }
 
   write.csv(key_file, file = file.path(path2, "key_file.csv"), row.names = FALSE)
