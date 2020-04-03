@@ -48,7 +48,7 @@ image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif", bin =
 
   file_df$scramble_num <- as.numeric(as.character(file_df$scramble_num))
   file_df <- file_df[order(file_df$scramble_num), ]
-  key_file <- subset(file_df, select = -c(file_paths))
+  key_file <- file_df
   scrambled_file <- subset(file_df, select = c(scramble_num))
 
   if(bin > 1){
