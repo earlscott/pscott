@@ -15,6 +15,7 @@
 
 image_scrambler <- function(path, chunks = 1, sep = "_", filetype = "tif", bin = 1){
   file_paths <- list.files(path = path)
+  file_paths <- grep(pattern = paste0("\\.", filetype,"$"), x = file_paths, value = TRUE)
   file_number <- length(file_paths)
   file_info <- regmatches(file_paths, regexpr(pattern = paste0("([A-z0-9[:punct:] ]+)(?=\\.", filetype, "$)"), file_paths, perl = TRUE)) #this is for grabbing all the info from the file name which will have some sort of identifying information of the image in regards to other images in the folder. It removes the path and the extension from the file name.
   scramble_num <- sample(1:file_number, file_number, replace = FALSE) #this creates a set of random numbers from 1 to the number of files so the highest number used for scrambling is the number of files. These will be what the function uses to replace the file names
